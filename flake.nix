@@ -12,27 +12,29 @@
       nixpkgs,
       flake-utils,
     }:
-    let
-      system = "aarch64-darwin";
-      pkgs = import nixpkgs {
-        inherit system;
-      };
-      bootstrap = pkgs.writeShellApplication {
-        name = "bootstrap";
-        runtimeInputs = with pkgs; [
-          bitwarden-cli
-          jq
-          git
-          nh
-          stow
-        ];
-        text = builtins.readFile ./scripts/bootstrap.sh;
-      };
-    in
-    {
-      apps.${system}.bootstrap = {
-        type = "app";
-        program = "${bootstrap}/bin/bootstrap";
-      };
-    };
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+        };
+        bootstrap = pkgs.writeShellApplication {
+          name = "bootstrap";
+          runtimeInputs = with pkgs; [
+            bitwarden-cli
+            jq
+            git
+            nh
+            stow
+          ];
+          text = builtins.readFile ./scripts/bootstrap.sh;
+        };
+      in
+      {
+        apps.bootstrap = {
+          type = "app";
+          program = "${bootstrap}/bin/bootstrap";
+        };
+      }
+    );
 }
