@@ -13,6 +13,7 @@ error() { echo -e "${RED}${BOLD}==> Error:${RESET} $*" >&2; }
 dry-run() { echo -e "${YELLOW}${BOLD}==>${RESET} ${BOLD}$*${RESET}"; }
 
 info "Logging in to Bitwarden..."
+bw config server https://vault.bitwarden.eu
 BW_SESSION=$(bw login --raw)
 export BW_SESSION
 success "Logged in successfully"
