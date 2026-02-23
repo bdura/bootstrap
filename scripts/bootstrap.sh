@@ -22,7 +22,7 @@ eval "$(ssh-agent)"
 trap 'kill $SSH_AGENT_PID' EXIT
 
 info "Fetching SSH key..."
-bw get item "SSH Key" | jq -r ".notes" | ssh-add -
+bw get item "Darwin" | jq -r ".sshKey.privateKey" | ssh-add -
 success "SSH key loaded into agent"
 
 info "Cloning dotfiles..."
@@ -34,7 +34,7 @@ mkdir .config || true
 cd .dotfiles
 stow .
 cd ~
-success "Dotfiles deployes"
+success "Dotfiles deployed"
 
 info "Cloning configuration..."
 git clone git@github.com:bdura/nix.git ~/machines

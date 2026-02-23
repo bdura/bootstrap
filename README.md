@@ -5,8 +5,8 @@
 xcode-select --install
 
 # Install nix
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 
 # Run the script
-nix run github:bdura/bootstrap.#bootstrap
+NIX_CONFIG="experimental-features = nix-command flakes" nix run github:bdura/bootstrap.#bootstrap
 ```
