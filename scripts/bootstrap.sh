@@ -26,21 +26,21 @@ bw get item "SSH Key" | jq -r ".notes" | ssh-add -
 success "SSH key loaded into agent"
 
 info "Cloning dotfiles..."
-dry-run "git clone git@github.com:bdura/dotfiles.git ~/.dotfiles"
+git clone git@github.com:bdura/dotfiles.git ~/.dotfiles
 success "Dotfiles cloned"
 
 info "Applying stow"
 mkdir .config || true
 cd .dotfiles
-dry-run "stow ."
+stow .
 cd ~
 success "Dotfiles deployes"
 
 info "Cloning configuration..."
-dry-run "git clone git@github.com:bdura/nix.git ~/machines"
+git clone git@github.com:bdura/nix.git ~/machines
 success "Configuration cloned"
 
 info "Building configuration..."
 cd machines
-dry-run "nh darwin switch --flake . --hostname nix-darwin-btw"
+nh darwin switch --flake . --hostname nix-darwin-btw
 success "Done! Restart your shell to apply all changes."
